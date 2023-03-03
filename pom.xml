@@ -33,7 +33,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<!-- maybe not needed? -->
 		<!-- <dependency>
 			<groupId>org.thymeleaf.extras</groupId>
