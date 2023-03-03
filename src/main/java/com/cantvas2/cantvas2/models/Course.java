@@ -3,6 +3,7 @@ package com.cantvas2.cantvas2.models;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -18,7 +19,7 @@ public class Course {
   final String courseDescription;
   final LocalDate startDate;
   final LocalDate endDate;
-  
-  @OneToMany
+
+  @OneToMany(cascade = CascadeType.ALL)
   List<CantvasUser> users;
 }
