@@ -20,11 +20,16 @@ import lombok.NoArgsConstructor;
 public class Course {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  final String courseName;
-  final String courseDescription;
-  final LocalDate startDate;
-  final LocalDate endDate;
+  final String name;
+  final String desc;
+  LocalDate startDate;
+  LocalDate endDate;
 
   @OneToMany(cascade = CascadeType.ALL)
   List<CantvasUser> users;
+
+  public Course(String name, String desc){
+    this.name = name;
+    this.desc = desc;
+  }
 }
