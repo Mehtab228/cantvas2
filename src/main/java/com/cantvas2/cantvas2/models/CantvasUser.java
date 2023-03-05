@@ -18,10 +18,12 @@ import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@RequiredArgsConstructor
 public abstract class CantvasUser implements UserDetails {
 
   @Id
