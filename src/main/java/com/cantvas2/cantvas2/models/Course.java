@@ -2,6 +2,7 @@ package com.cantvas2.cantvas2.models;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Iterator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,12 +14,15 @@ import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class Course {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@RequiredArgsConstructor
+public class Course implements Iterable<LocalDate> {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   final String name;
   final String desc;
@@ -28,8 +32,8 @@ public class Course {
   @OneToMany(cascade = CascadeType.ALL)
   List<CantvasUser> users;
 
-  public Course(String name, String desc){
-    this.name = name;
-    this.desc = desc;
+  @Override
+  public Iterator<LocalDate> iterator() {
+    return startDate.datesUntil(endDate).iterator();
   }
 }
