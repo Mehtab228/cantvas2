@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +33,8 @@ public class Course implements Iterable<LocalDate> {
   LocalDate startDate;
   LocalDate endDate;
 
-  private final class Calendar {
+  public final class Calendar {
+    @Getter
     Map<LocalDate, List<Assignment>> assignments;
   }
 
