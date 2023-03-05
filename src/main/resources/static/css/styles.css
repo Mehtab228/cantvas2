@@ -1,0 +1,10 @@
+#day-cell {
+    border: purple;
+    border-radius: 5px;
+    background-color: aqua;
+    padding: 1rem;
+}
+
+#week-row {
+    border: purple;
+}
