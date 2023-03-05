@@ -2,7 +2,10 @@ package com.cantvas2.cantvas2.models;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,11 +32,25 @@ public class Course implements Iterable<LocalDate> {
   LocalDate startDate;
   LocalDate endDate;
 
+  private final class Calendar {
+    Map<LocalDate, List<Assignment>> assignments;
+  }
+
   @OneToMany(cascade = CascadeType.ALL)
   List<CantvasUser> users;
 
   @Override
   public Iterator<LocalDate> iterator() {
     return startDate.datesUntil(endDate).iterator();
+  }
+
+  public Calendar createCalendar() {
+    Map<LocalDate, List<Assignment>> assignments = new HashMap<>();
+    Calendar calendar = new Calendar();
+    this.iterator().forEachRemaining(day -> {
+      assignments.put(day, new LinkedList<>());
+    });
+    calendar.assignments = assignments;
+    return calendar;
   }
 }
