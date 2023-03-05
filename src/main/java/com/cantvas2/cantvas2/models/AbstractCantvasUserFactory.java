@@ -1,6 +1,6 @@
 package com.cantvas2.cantvas2.models;
 
-public class AbstractCantvasUserFactory {
+public abstract class AbstractCantvasUserFactory {
 
     public Student createStudent() {
         throw new UnsupportedOperationException("abstract student constructor cannot be invoked directly");
