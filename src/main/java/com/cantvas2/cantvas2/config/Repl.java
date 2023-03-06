@@ -15,11 +15,15 @@ public final class Repl {
     @Autowired ApplicationContext ctx;
 
     private final IFn require = Clojure.var("clojure.core", "require");
+    private final IFn symbol = Clojure.var("clojure.core", "symbol");
+    private final IFn intern = Clojure.var("clojure.core", "intern");
     private final IFn startServer;
     private final IFn stopServer = Clojure.var("clojure.core.server", "stop-server");
+    private Object userNamespace = symbol.invoke("user");
 
     protected Repl() {
         this.startServer = Clojure.var("clojure.core.server", "start-server");
+        intern.invoke(userNamespace, symbol.invoke("app-ctx"), ctx);
     }
 
     @PostConstruct
