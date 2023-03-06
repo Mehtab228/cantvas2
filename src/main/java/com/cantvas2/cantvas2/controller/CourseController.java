@@ -36,6 +36,7 @@ public class CourseController {
         .keySet()
         .stream()
         .filter(date -> date.getMonth() == OCTOBER)
+        .sorted()
         .collect(Collectors.toUnmodifiableList());
     model.addAttribute("calendar", october);
   }
