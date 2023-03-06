@@ -9,9 +9,11 @@ import com.cantvas2.cantvas2.models.Course;
 import com.cantvas2.cantvas2.models.Student;
 
 // import com.cantvas2.cantvas2.services.DatabaseService;
+import com.cantvas2.cantvas2.services.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,6 +31,7 @@ public class CourseController {
 
   // @Autowired DatabaseService databaseService;
 
+  @Autowired DatabaseService databaseService;
   @ModelAttribute
   public void AddCoursesToModel(Model model) {
     List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
@@ -68,5 +72,11 @@ public class CourseController {
   public Student enrollStudent(@RequestBody Student student,
       @PathVariable(value = "courseId") Long courseId) {
         return new Student("Ben");
+  }
+
+  @GetMapping("/{id}")
+  @ResponseBody 
+  public Course getCourseById(@PathVariable(value = "id") Long courseId){
+    return databaseService.findById(courseId).get();
   }
 }
