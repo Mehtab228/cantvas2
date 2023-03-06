@@ -21,6 +21,11 @@ public class UserFactoryTests {
 
     @Test
     void testStudentFactory() {
-        assertEquals("Ben", studentFactory.createStudent("Ben").getName());
+        assertEquals("[ROLE_STUDENT]", studentFactory.createStudent("Ben").getAuthorities().toString());
+    }
+
+    @Test
+    void testTeacherFactory() {
+        assertEquals("[ROLE_TEACHER]", teacherFactory.createTeacher("David").getAuthorities().toString());
     }
 }
