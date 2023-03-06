@@ -38,6 +38,39 @@ public class Course implements Iterable<LocalDate> {
     Map<LocalDate, List<Assignment>> assignments;
   }
 
+  public final static class Builder extends AbstractCourseBuilder {
+    String name;
+    String desc;
+    LocalDate startDate;
+    LocalDate endDate;
+
+    public Builder() {}
+
+    public AbstractCourseBuilder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public AbstractCourseBuilder desc(String desc) {
+      this.desc = desc;
+      return this;
+    }
+
+    public AbstractCourseBuilder startDate(LocalDate startDate) {
+      this.startDate = startDate;
+      return this;
+    }
+
+    public AbstractCourseBuilder endDate(LocalDate endDate) {
+      this.endDate = endDate;
+      return this;
+    }
+
+    public Course build() {
+      return new Course(this.name, this.desc);
+    }
+  }
+
   @OneToMany(cascade = CascadeType.ALL)
   List<CantvasUser> users;
 
