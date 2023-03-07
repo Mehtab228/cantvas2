@@ -5,19 +5,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.cantvas2.cantvas2.models.*;
-import com.cantvas2.cantvas2.config.*;
 
-@ContextConfiguration(classes = { RegistrationConfig.class })
+@ContextConfiguration
 @SpringBootTest
 public class UserFactoryTests {
 
-    @Autowired
-    RegistrationConfig userConfig;
-    StudentFactory studentFactory = new StudentFactory();
-    TeacherFactory teacherFactory = new TeacherFactory();
+    @Autowired StudentFactory studentFactory;
+    @Autowired TeacherFactory teacherFactory;
+
+    @Configuration
+    static class Config {
+        @Bean
+        StudentFactory studentFactory() {
+            return new StudentFactory();
+        }
+
+        @Bean
+        TeacherFactory teacherFactory() {
+            return new TeacherFactory();
+        }
+    }
 
     @Test
     void testStudentFactory() {
@@ -25,7 +37,12 @@ public class UserFactoryTests {
     }
 
     @Test
+    void testAutowire() {
+        assertDoesNotThrow(() -> studentFactory.createStudent("Ben"));
+    }
+
+    @Test
     void testTeacherFactory() {
-        assertEquals("[ROLE_TEACHER]", teacherFactory.createTeacher("David").getAuthorities().toString());
+        assertEquals("[ROLE_TEACHER, ROLE_ADMIN]", teacherFactory.createTeacher("David").getAuthorities().toString());
     }
 }
