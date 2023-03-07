@@ -2,18 +2,17 @@ package com.cantvas2.cantvas2.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 import java.time.LocalDate;
 import static java.time.Month.*;
 
 import com.cantvas2.cantvas2.models.Course;
 import com.cantvas2.cantvas2.models.Student;
 
-// import com.cantvas2.cantvas2.services.DatabaseService;
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,9 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/courses")
 public class CourseController {
 
-  // @Autowired DatabaseService databaseService;
+  @Autowired
+  DatabaseService databaseService;
 
-  @Autowired DatabaseService databaseService;
   @ModelAttribute
   public void AddCoursesToModel(Model model) {
     List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
@@ -71,12 +69,18 @@ public class CourseController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Student enrollStudent(@RequestBody Student student,
       @PathVariable(value = "courseId") Long courseId) {
-        return new Student("Ben");
+    Optional<Course> course = databaseService.findById(courseId)
+        .flatMap(_course -> {
+          _course.getUsers().add(student);
+          return Optional.of(_course);
+        });
+    databaseService.saveAll(course.get());
+    return student;
   }
 
   @GetMapping("/{id}")
-  @ResponseBody 
-  public Course getCourseById(@PathVariable(value = "id") Long courseId){
+  @ResponseBody
+  public Course getCourseById(@PathVariable(value = "id") Long courseId) {
     return databaseService.findById(courseId).get();
   }
 }
