@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.cantvas2.cantvas2.models.Course;
+import com.cantvas2.cantvas2.models.Student;
+import com.cantvas2.cantvas2.services.CantvasUserService;
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 @SpringBootApplication
@@ -18,12 +20,15 @@ public class Cantvas2Application {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(DatabaseService databaseService){
+	CommandLineRunner commandLineRunner(DatabaseService databaseService, CantvasUserService cantvasUserService){
 		return args -> {
 			List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
 			new Course("JavaScript 401", "Advanced JavaScript course going deep into React and Node.js"),
 			new Course("JavaScript 201", "Introductory JavaScript"));
 			databaseService.saveAll(coursesList.get(0));
+
+			Student student = new Student("Bingbong");
+			cantvasUserService.saveOne(student);
 		};
 	}
 
