@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import com.cantvas2.cantvas2.util.*;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
 @AllArgsConstructor
-public final class Assignment implements Copyable {
+public final class Assignment implements Copyable, Comparable<LocalDateTime> {
     final LocalDateTime dueDate;
     final LocalDateTime availableFrom;
     final String name;
@@ -15,5 +17,10 @@ public final class Assignment implements Copyable {
 
     public Object copy() {
         return new Assignment(dueDate, availableFrom, name, description);
+    }
+
+    @Override
+    public int compareTo(LocalDateTime o) {
+        return this.dueDate.compareTo(o);
     }
 }

@@ -44,7 +44,8 @@ public class Course implements Iterable<LocalDate> {
     LocalDate startDate;
     LocalDate endDate;
 
-    public Builder() {}
+    public Builder() {
+    }
 
     public AbstractCourseBuilder name(String name) {
       this.name = name;
@@ -72,7 +73,7 @@ public class Course implements Iterable<LocalDate> {
   }
 
   @OneToMany(cascade = CascadeType.ALL)
-  List<CantvasUser> users;
+  List<Student> users;
 
   @Override
   public Iterator<LocalDate> iterator() {
