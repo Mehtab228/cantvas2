@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.cantvas2.cantvas2.models.Course;
+import com.cantvas2.cantvas2.models.*;
 
 @Service
 public class DatabaseService {
@@ -25,7 +25,13 @@ public class DatabaseService {
         return new Course(resultSet.getString("name"), resultSet.getString("desc"));
    }
 
-   public void saveAll(Course courses){
-        jdbcTemplate.update("insert into COURSE (name, desc) values (?,?)", courses.getName(), courses.getDesc());
+   public void saveAll(Iterable<Course> courses){
+     for (Course course : courses) {
+          jdbcTemplate.update("insert into COURSE (name, desc) values (?,?)", course.getName(), course.getDesc());
+     }
+   }
+
+   public void enrollStudent(Student student) {
+     jdbcTemplate.update("update Course set users = users || ?", student.getName());
    }
 }

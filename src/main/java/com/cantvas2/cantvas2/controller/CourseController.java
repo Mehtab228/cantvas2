@@ -66,7 +66,7 @@ public class CourseController {
 
   @PutMapping("/enroll/{courseId}")
   @ResponseBody
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  // @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Student enrollStudent(@RequestBody Student student,
       @PathVariable(value = "courseId") Long courseId) {
     Optional<Course> course = databaseService.findById(courseId)
@@ -74,7 +74,7 @@ public class CourseController {
           _course.getUsers().add(student);
           return Optional.of(_course);
         });
-    databaseService.saveAll(course.get());
+    // databaseService.saveAll(course.get());
     return student;
   }
 

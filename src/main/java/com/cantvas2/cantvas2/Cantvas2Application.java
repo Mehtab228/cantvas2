@@ -6,6 +6,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import com.cantvas2.cantvas2.models.Course;
 import com.cantvas2.cantvas2.services.DatabaseService;
@@ -18,13 +22,24 @@ public class Cantvas2Application {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(DatabaseService databaseService){
+	CommandLineRunner commandLineRunner(DatabaseService databaseService) {
 		return args -> {
 			List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
-			new Course("JavaScript 401", "Advanced JavaScript course going deep into React and Node.js"),
-			new Course("JavaScript 201", "Introductory JavaScript"));
-			databaseService.saveAll(coursesList.get(0));
+					new Course("JavaScript 401", "Advanced JavaScript course going deep into React and Node.js"),
+					new Course("JavaScript 201", "Introductory JavaScript"));
+			databaseService.saveAll(coursesList);
 		};
 	}
 
+	// @Bean
+	// CommandLineRunner seedUsers(JdbcUserDetailsManager userManager, BCryptPasswordEncoder encoder) {
+	// 	return args -> {
+	// 		UserDetails user = User.builder()
+	// 				.username("david")
+	// 				.password(encoder.encode("foobar"))
+	// 				.authorities("admin")
+	// 				.build();
+	// 		userManager.createUser(user);
+	// 	};
+	// }
 }
