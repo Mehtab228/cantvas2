@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import static java.time.Month.*;
 
 import com.cantvas2.cantvas2.models.Course;
+// vvv naughty please delete vvv //
+import com.cantvas2.cantvas2.models.Student;
+import com.cantvas2.cantvas2.services.CantvasUserService;
+// ^^^ naughty please delete ^^^ // 
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +63,14 @@ public class CourseController {
   @ResponseBody 
   public Course getCourseById(@PathVariable(value = "id") Long courseId){
     return databaseService.findById(courseId).get();
+  }
+
+  //naughty and lazy, plz delete
+  @Autowired CantvasUserService userService;
+
+  @GetMapping("user/{id}")
+  @ResponseBody
+  public Student getStudentById(@PathVariable(value = "id") Long studentId){
+    return userService.findById(studentId).get();
   }
 }
