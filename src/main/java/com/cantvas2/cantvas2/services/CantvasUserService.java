@@ -16,7 +16,7 @@ public class CantvasUserService {
   @Autowired JdbcTemplate jdbcTemplate;
 
   public Optional<Student> findById(Long id){
-    List<Student> results = jdbcTemplate.query("select id, username, name where id=?", this::mapRowToStudent, id);
+    List<Student> results = jdbcTemplate.query("SELECT id, username FROM cantvas_user WHERE id=?", this::mapRowToStudent, id);
     return results.size() == 0 ? Optional.empty() : Optional.of(results.get(0));
   }
 
