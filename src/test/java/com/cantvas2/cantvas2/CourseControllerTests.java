@@ -35,7 +35,7 @@ public class CourseControllerTests {
     private MockMvc mockMvc;
 
     @Autowired
-    private RegistrationService registrationService;
+    private SignupService registrationService;
 
     private final ObjectMapper mapper = new ObjectMapper();
 

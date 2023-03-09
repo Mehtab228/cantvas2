@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import com.cantvas2.cantvas2.models.*;
 
 @Service
-public class RegistrationService {
+public class SignupService {
 
     public final UserFactory userFactory;
     private final DatabaseService databaseService;
     private final JdbcUserDetailsManager userDetailsManager;
     
-    RegistrationService(UserFactory userFactory, DatabaseService databaseService, JdbcUserDetailsManager userDetailsManager) {
+    SignupService(UserFactory userFactory, DatabaseService databaseService, JdbcUserDetailsManager userDetailsManager) {
         this.userFactory = userFactory;
         this.databaseService = databaseService;
         this.userDetailsManager = userDetailsManager;

@@ -10,12 +10,12 @@ import org.springframework.test.context.ContextConfiguration;
 import com.cantvas2.cantvas2.models.*;
 import com.cantvas2.cantvas2.config.*;
 
-@ContextConfiguration(classes = { RegistrationConfig.class })
+@ContextConfiguration(classes = { SignupConfig.class })
 @SpringBootTest
 public class UserFactoryTests {
 
     @Autowired
-    RegistrationConfig userConfig;
+    SignupConfig userConfig;
     UserFactory userFactory = new ConcreteUserFactory();
 
     @Test
