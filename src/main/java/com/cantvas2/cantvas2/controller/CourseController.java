@@ -1,13 +1,19 @@
 package com.cantvas2.cantvas2.controller;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.Optional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import static java.time.Month.*;
 
 import com.cantvas2.cantvas2.models.Course;
 import com.cantvas2.cantvas2.models.Student;
+import com.cantvas2.cantvas2.models.Assignment;
 
 import com.cantvas2.cantvas2.services.DatabaseService;
 
@@ -44,12 +50,17 @@ public class CourseController {
     Course java = new Course("Java 401", "Advanced Java course with Spring and Android");
     java.setStartDate(LocalDate.of(2022, OCTOBER, 10));
     java.setEndDate(LocalDate.of(2022, DECEMBER, 10));
-    List<LocalDate> october = java.createCalendar()
+    List<Object> october = java.createCalendar()
         .getAssignments()
-        .keySet()
+        .entrySet()
         .stream()
-        .filter(date -> date.getMonth() == OCTOBER)
-        .sorted()
+        .filter(date -> date.getKey().getMonth() == OCTOBER)
+        .sorted(Comparator.comparing(Map.Entry<LocalDate, List<Assignment>>::getKey))
+        .map(m -> {
+          String name = m.getValue().get(0).getName();
+          LocalDateTime dueDate = m.getValue().get(0).getDueDate();
+          return name + ": " + dueDate.truncatedTo(ChronoUnit.HOURS).toString();
+        })
         .collect(Collectors.toUnmodifiableList());
     model.addAttribute("calendar", october);
   }
@@ -71,7 +82,7 @@ public class CourseController {
       @PathVariable(value = "courseId") Long courseId) {
     Optional<Course> course = databaseService.findById(courseId)
         .flatMap(_course -> {
-          _course.getUsers().add(student);
+          _course.getStudents().add(student);
           return Optional.of(_course);
         });
     // databaseService.saveAll(course.get());

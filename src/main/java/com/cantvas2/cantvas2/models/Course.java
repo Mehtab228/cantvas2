@@ -1,6 +1,9 @@
 package com.cantvas2.cantvas2.models;
 
 import java.time.LocalDate;
+import static java.time.Month.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -38,31 +41,31 @@ public class Course implements Iterable<LocalDate> {
     Map<LocalDate, List<Assignment>> assignments;
   }
 
-  public final static class Builder extends AbstractCourseBuilder {
-    String name;
-    String desc;
-    LocalDate startDate;
-    LocalDate endDate;
+  public final static class Builder {
+    private String name;
+    private String desc;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Builder() {
     }
 
-    public AbstractCourseBuilder name(String name) {
+    public Builder name(String name) {
       this.name = name;
       return this;
     }
 
-    public AbstractCourseBuilder desc(String desc) {
+    public Builder desc(String desc) {
       this.desc = desc;
       return this;
     }
 
-    public AbstractCourseBuilder startDate(LocalDate startDate) {
+    public Builder startDate(LocalDate startDate) {
       this.startDate = startDate;
       return this;
     }
 
-    public AbstractCourseBuilder endDate(LocalDate endDate) {
+    public Builder endDate(LocalDate endDate) {
       this.endDate = endDate;
       return this;
     }
@@ -73,7 +76,7 @@ public class Course implements Iterable<LocalDate> {
   }
 
   @OneToMany(cascade = CascadeType.ALL)
-  List<Student> users;
+  List<Student> students;
 
   @Override
   public Iterator<LocalDate> iterator() {
@@ -84,7 +87,10 @@ public class Course implements Iterable<LocalDate> {
     Map<LocalDate, List<Assignment>> assignments = new HashMap<>();
     Calendar calendar = new Calendar();
     this.iterator().forEachRemaining(day -> {
-      assignments.put(day, new LinkedList<>());
+      List<Assignment> test = new LinkedList<>();
+      test.add(new Assignment(LocalDateTime.of(day, LocalTime.now()),
+          LocalDateTime.of(day.plusDays(1), LocalTime.MIDNIGHT), "Test Assignment", "Test description"));
+      assignments.put(day, test);
     });
     calendar.assignments = assignments;
     return calendar;
