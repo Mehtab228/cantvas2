@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#day-cell {
+    @apply p-2 border border-cyan-100 hover:bg-slate-300
+}
