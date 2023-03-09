@@ -2,10 +2,12 @@ package com.cantvas2.cantvas2;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
@@ -32,12 +34,14 @@ public class Cantvas2Application {
 	}
 
 	@Bean
-	CommandLineRunner seedUsers(UserFactory userFactory, JdbcUserDetailsManager userManager, BCryptPasswordEncoder encoder) {
+	CommandLineRunner seedUsers(UserFactory userFactory, JdbcUserDetailsManager userManager, DatabaseService databaseService,
+			BCryptPasswordEncoder encoder) {
 		return args -> {
 			CantvasUser david = userFactory.createStudent("david");
 			david.setUsername("david");
 			david.setPassword(encoder.encode("foobar"));
 			userManager.createUser(david);
+			databaseService.createStudent((Student) david);
 		};
 	}
 }
