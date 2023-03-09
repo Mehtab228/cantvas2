@@ -29,8 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .cors().disable()
         .authorizeHttpRequests(auth -> {
-          auth.anyRequest().permitAll();
-        });
+          auth.mvcMatchers("/", "/login").permitAll()
+          .mvcMatchers("/courses/**").authenticated();
+        }).formLogin().loginPage("/login");
   }
 
   @Bean

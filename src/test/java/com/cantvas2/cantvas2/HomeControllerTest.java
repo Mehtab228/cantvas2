@@ -9,13 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.cantvas2.cantvas2.controller.HomeController;
 
 @ActiveProfiles(value = "test")
-@WebMvcTest(HomeController.class)
+// @WebMvcTest(HomeController.class)
+@SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class HomeControllerTest {
   @Autowired
@@ -28,4 +30,12 @@ public class HomeControllerTest {
       .andExpect(view().name("home"))
       .andExpect(content().string(containsString("Home Page")));
   }
+
+  @Test
+  public void testLoginPage() throws Exception{
+    mockMvc.perform(get("/login"))
+    .andExpect(status().isUnauthorized());
+    // .andExpect(content().string(containsString("Please sign in")));
+  }
+
 }
