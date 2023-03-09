@@ -95,4 +95,8 @@ public class Course implements Iterable<LocalDate> {
     calendar.assignments = assignments;
     return calendar;
   }
+
+  public void enrollStudent(Student student) {
+    students.add(student);
+  }
 }

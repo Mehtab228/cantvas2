@@ -21,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,17 +77,17 @@ public class CourseController {
     return "courseCalendar";
   }
 
-  @PutMapping("/enroll/{courseId}")
+  @PostMapping(path = "/enroll/{id}", consumes = "application/json")
   @ResponseBody
   // @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Student enrollStudent(@RequestBody Student student,
-      @PathVariable(value = "courseId") Long courseId) {
+      @PathVariable(value = "id") Long courseId) {
     Optional<Course> course = databaseService.findById(courseId)
         .flatMap(_course -> {
-          _course.getStudents().add(student);
+          _course.enrollStudent(student);
           return Optional.of(_course);
         });
-    // databaseService.saveAll(course.get());
+    databaseService.updateCourse(course.get());
     return student;
   }
 
