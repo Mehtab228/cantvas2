@@ -29,7 +29,7 @@ public class CourseControllerTests {
     @Test
     @WithMockUser(username = "david", roles = { "ADMIN" })
     void canEnrollStudentUsingAdminRole() throws Exception {
-        Student student = registrationService.studentFactory.createStudent("Ben");
+        Student student = registrationService.userFactory.createStudent("Ben");
 
         String json = mapper.writeValueAsString(student);
 

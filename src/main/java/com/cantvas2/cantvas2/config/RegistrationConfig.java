@@ -7,14 +7,9 @@ import com.cantvas2.cantvas2.models.*;
 
 @Configuration
 public class RegistrationConfig {
-    
-    @Bean
-    StudentFactory studentFactory() {
-        return new StudentFactory();
-    }
 
     @Bean
-    TeacherFactory teacherFactory() {
-        return new TeacherFactory();
+    UserFactory userFactory() {
+        return new ConcreteUserFactory();
     }
 }

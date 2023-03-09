@@ -7,18 +7,16 @@ import com.cantvas2.cantvas2.models.*;
 @Service
 public class RegistrationService {
 
-    public final StudentFactory studentFactory;
-    public final TeacherFactory teacherFactory;
+    public final UserFactory userFactory;
     private final DatabaseService databaseService;
     
-    RegistrationService(StudentFactory studentFactory, TeacherFactory teacherFactory, DatabaseService databaseService) {
-        this.studentFactory = studentFactory;
-        this.teacherFactory = teacherFactory;
+    RegistrationService(UserFactory userFactory, DatabaseService databaseService) {
+        this.userFactory = userFactory;
         this.databaseService = databaseService;
     }
 
     void enrollStudent(String name) {
-        Student student = studentFactory.createStudent(name);
+        Student student = userFactory.createStudent(name);
         databaseService.enrollStudent(student);
     }
 }
