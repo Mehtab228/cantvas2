@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
+@RequiredArgsConstructor
 public class CantvasUser implements UserDetails {
 
   @Id
@@ -38,6 +39,11 @@ public class CantvasUser implements UserDetails {
   String username;
   String password;
   boolean enabled;
+
+  public CantvasUser(String username, String password){
+    this.username = username;
+    this.password = password;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

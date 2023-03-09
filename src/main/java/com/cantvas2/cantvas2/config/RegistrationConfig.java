@@ -9,7 +9,7 @@ import com.cantvas2.cantvas2.models.*;
 public class RegistrationConfig {
 
     @Bean
-    UserFactory userFactory() {
+    ConcreteUserFactory userFactory() {
         return new ConcreteUserFactory();
     }
 }
