@@ -3,6 +3,8 @@ package com.cantvas2.cantvas2.models;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @RequiredArgsConstructor
-public class Student extends User {
+@DiscriminatorValue("student")
+public class Student extends CantvasUser {
+    private static final String userType = "student";
     @Getter
     final String name;
 

@@ -6,12 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import com.cantvas2.cantvas2.models.Course;
+import com.cantvas2.cantvas2.models.UserFactory;
+import com.cantvas2.cantvas2.models.*;
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 @SpringBootApplication
@@ -31,15 +31,13 @@ public class Cantvas2Application {
 		};
 	}
 
-	// @Bean
-	// CommandLineRunner seedUsers(JdbcUserDetailsManager userManager, BCryptPasswordEncoder encoder) {
-	// 	return args -> {
-	// 		UserDetails user = User.builder()
-	// 				.username("david")
-	// 				.password(encoder.encode("foobar"))
-	// 				.authorities("admin")
-	// 				.build();
-	// 		userManager.createUser(user);
-	// 	};
-	// }
+	@Bean
+	CommandLineRunner seedUsers(UserFactory userFactory, JdbcUserDetailsManager userManager, BCryptPasswordEncoder encoder) {
+		return args -> {
+			CantvasUser david = userFactory.createStudent("david");
+			david.setUsername("david");
+			david.setPassword(encoder.encode("foobar"));
+			userManager.createUser(david);
+		};
+	}
 }
