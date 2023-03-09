@@ -13,19 +13,19 @@ import com.cantvas2.cantvas2.models.SignupForm;
 
 @Controller
 @RequestMapping("/signup")
-public class RegistrationController {
+public class SignupController {
   private JdbcUserDetailsManager jdbcUserDetailsManager;
   private PasswordEncoder passwordEncoder;
   private ConcreteUserFactory userFactory;
 
-  public RegistrationController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, ConcreteUserFactory userFactory){
+  public SignupController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, ConcreteUserFactory userFactory){
     this.jdbcUserDetailsManager = jdbcUserDetailsManager;
     this.passwordEncoder = passwordEncoder;
     this.userFactory = userFactory;
   }
 
   @GetMapping
-  public String registrationForm(){
+  public String signupForm(){
     return "signup";
   }
 

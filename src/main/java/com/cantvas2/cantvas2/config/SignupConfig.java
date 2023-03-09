@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.cantvas2.cantvas2.models.*;
 
 @Configuration
-public class RegistrationConfig {
+public class SignupConfig {
 
     @Bean
     ConcreteUserFactory userFactory() {
