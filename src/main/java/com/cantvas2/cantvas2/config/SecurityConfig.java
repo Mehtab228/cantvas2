@@ -20,14 +20,17 @@ import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 
 @Configuration
 @EnableWebSecurity
-@Profile(value = { "development", "production" })
+@Profile(value = { "test", "development", "production" })
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.authorizeHttpRequests(auth -> {
-      auth.anyRequest().permitAll();
-    });
+    httpSecurity
+        .csrf().disable()
+        .cors().disable()
+        .authorizeHttpRequests(auth -> {
+          auth.anyRequest().permitAll();
+        });
   }
 
   @Bean
@@ -36,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  UserDetailsService jdbcUserDetailsService() {
+  @Profile(value = { "test", "development" })
+  JdbcUserDetailsManager jdbcUserDetailsService() {
     return new JdbcUserDetailsManager(new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
   }
 
