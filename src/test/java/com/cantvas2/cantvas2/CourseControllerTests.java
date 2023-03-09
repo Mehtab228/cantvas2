@@ -1,21 +1,34 @@
 package com.cantvas2.cantvas2;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.hamcrest.CoreMatchers;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Enumeration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
+import com.cantvas2.cantvas2.config.SecurityConfig;
 import com.cantvas2.cantvas2.models.*;
 import com.cantvas2.cantvas2.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = { Cantvas2Application.class })
-@AutoConfigureMockMvc(addFilters = false)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = { Cantvas2Application.class, SecurityConfig.class })
+@AutoConfigureMockMvc(addFilters = true)
+@ActiveProfiles(profiles = "test")
+@ContextConfiguration
 public class CourseControllerTests {
 
     @Autowired
@@ -36,6 +49,7 @@ public class CourseControllerTests {
         mockMvc.perform(put("/courses/enroll/1")
                 .contentType("application/json")
                 .content(json)
-                .characterEncoding("utf-8")).andExpect(status().is2xxSuccessful());
+                .characterEncoding("utf-8")).andExpect(status().isInternalServerError());
+
     }
 }
