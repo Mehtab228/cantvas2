@@ -31,7 +31,15 @@ public class DatabaseService {
      }
    }
 
-   public void enrollStudent(Student student) {
-     jdbcTemplate.update("update Course set users = users || ?", student.getName());
+   public void createStudent(Student student) {
+     jdbcTemplate.update("insert into Student (id, name) values (?, ?)", 1, student.getName());
    }
+
+  //  public void enrollStudent(Course course, Student student) {
+  //    jdbcTemplate.update("insert into COURSE_STUDENTS values (?, ?)", course.getId(), student.getName());
+  //  }
+
+  public void updateCourse(Course course) {
+    jdbcTemplate.update("insert into Course values (?, ?)", course.getId(), course.getName());
+  }
 }
