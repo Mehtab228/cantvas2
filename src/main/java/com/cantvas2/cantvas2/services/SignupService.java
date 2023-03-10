@@ -18,15 +18,4 @@ public class SignupService {
         this.databaseService = databaseService;
         this.userDetailsManager = userDetailsManager;
     }
-
-    // void enrollStudent(String name) {
-    //     Student student = userFactory.createStudent(name);
-    //     databaseService.enrollStudent(student);
-    // }
-
-    void createTeacher(String name) {
-        Teacher teacher = userFactory.createTeacher(name);
-        databaseService.jdbcTemplate.update("insert into Teacher (id, name) values (?, ?)", 1, name);
-        userDetailsManager.createUser(teacher);
-    }
 }
