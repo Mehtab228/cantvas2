@@ -1,5 +1,6 @@
 package com.cantvas2.cantvas2.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cantvas2.cantvas2.models.*;
+import com.cantvas2.cantvas2.repository.UserRepository;
 import com.cantvas2.cantvas2.services.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/signup")
 public class SignupController {
-  private JdbcUserDetailsManager jdbcUserDetailsManager;
   private DatabaseService databaseService;
   private PasswordEncoder passwordEncoder;
   private ConcreteUserFactory userFactory;
+  @Autowired UserRepository userRepository;
 
   public SignupController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder,
       ConcreteUserFactory userFactory, DatabaseService databaseService) {
-    this.jdbcUserDetailsManager = jdbcUserDetailsManager;
     this.passwordEncoder = passwordEncoder;
     this.userFactory = userFactory;
     this.databaseService = databaseService;
@@ -49,7 +50,7 @@ public class SignupController {
       Teacher newTeacher = userFactory.createTeacher(form.getUsername());
       databaseService.createTeacher(newTeacher);
     }
-    jdbcUserDetailsManager.createUser(newUser);
+    userRepository.save(newUser);
     return "redirect:/login";
   }
 }
