@@ -32,12 +32,12 @@ public class DatabaseService {
    }
 
    public void createStudent(Student student) {
-     jdbcTemplate.update("insert into Student (id, name) values (?, ?)", 1, student.getName());
+     jdbcTemplate.update("insert into Student (id, name) values (?, ?)", Math.ceil(Math.random()), student.getName());
    }
 
-  //  public void enrollStudent(Course course, Student student) {
-  //    jdbcTemplate.update("insert into COURSE_STUDENTS values (?, ?)", course.getId(), student.getName());
-  //  }
+  public void createTeacher(Teacher teacher) {
+    jdbcTemplate.update("insert into Teacher (id, name) values (?, ?)", Math.ceil(Math.random()), teacher.getName());
+  }
 
   public void updateCourse(Course course) {
     jdbcTemplate.update("insert into Course values (?, ?)", course.getId(), course.getName());

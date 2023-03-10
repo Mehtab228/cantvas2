@@ -7,6 +7,12 @@ public class SignupForm {
   private String username;
   private String password;
   private String name;
+  
 
+  public enum UserType {
+    STUDENT,
+    TEACHER,
+    ADMIN
+  }
   
 }
