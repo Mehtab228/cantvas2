@@ -31,16 +31,16 @@ public class Cantvas2Application {
 		};
 	}
 
-	@Bean
-	CommandLineRunner seedUsers(UserFactory userFactory, JdbcUserDetailsManager userManager,
-			DatabaseService databaseService,
-			BCryptPasswordEncoder encoder) {
-		return args -> {
-			CantvasUser david = userFactory.createStudent("david");
-			david.setUsername("david");
-			david.setPassword(encoder.encode("foobar"));
-			userManager.createUser(david);
-			databaseService.createStudent((Student) david);
-		};
-	}
+	// @Bean
+	// CommandLineRunner seedUsers(UserFactory userFactory, JdbcUserDetailsManager userManager,
+	// 		DatabaseService databaseService,
+	// 		BCryptPasswordEncoder encoder) {
+	// 	return args -> {
+	// 		CantvasUser david = userFactory.createStudent("david");
+	// 		david.setUsername("david");
+	// 		david.setPassword(encoder.encode("foobar"));
+	// 		userManager.createUser(david);
+	// 		databaseService.createStudent((Student) david);
+	// 	};
+	// }
 }

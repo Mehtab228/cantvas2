@@ -9,10 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.cantvas2.cantvas2.models.*;
+import com.cantvas2.cantvas2.repository.StudentRepository;
+import com.cantvas2.cantvas2.repository.TeacherRepository;
 
 @Service
 public class DatabaseService {
    @Autowired JdbcTemplate jdbcTemplate;
+   @Autowired StudentRepository studentRepository;
+   @Autowired TeacherRepository teacherRepository;
 
    public Optional<Course> findById(Long id){
         List<Course> results = jdbcTemplate.query("select * FROM Course WHERE id = ?", this::mapRow, id);
@@ -32,11 +36,11 @@ public class DatabaseService {
    }
 
    public void createStudent(Student student) {
-     jdbcTemplate.update("insert into Student (id, name) values (?, ?)", Math.ceil(Math.random()), student.getName());
+     studentRepository.save(student);
    }
 
   public void createTeacher(Teacher teacher) {
-    jdbcTemplate.update("insert into Teacher (id, name) values (?, ?)", Math.ceil(Math.random()), teacher.getName());
+    teacherRepository.save(teacher);
   }
 
   public void updateCourse(Course course) {
