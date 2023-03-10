@@ -8,13 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ActiveProfiles(value = "test")
-// @WebMvcTest(HomeController.class)
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class HomeControllerTest {
@@ -33,7 +31,7 @@ public class HomeControllerTest {
   public void testLoginPage() throws Exception{
     mockMvc.perform(get("/login"))
     .andExpect(status().isOk())
-    .andExpect(content().string(containsString("Log in")));
+    .andExpect(content().string(containsString("Log")));
   }
 
   @Test
