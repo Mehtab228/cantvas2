@@ -8,15 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+
 import com.cantvas2.cantvas2.models.*;
 import com.cantvas2.cantvas2.repository.StudentRepository;
 import com.cantvas2.cantvas2.repository.TeacherRepository;
 
+
 @Service
 public class DatabaseService {
    @Autowired JdbcTemplate jdbcTemplate;
+
    @Autowired StudentRepository studentRepository;
    @Autowired TeacherRepository teacherRepository;
+
 
    public Optional<Course> findById(Long id){
         List<Course> results = jdbcTemplate.query("select * FROM Course WHERE id = ?", this::mapRow, id);
@@ -28,6 +32,7 @@ public class DatabaseService {
    private Course mapRow(ResultSet resultSet, int rowNumber) throws SQLException{
         return new Course(resultSet.getString("name"), resultSet.getString("desc"));
    }
+
 
    public void saveAll(Iterable<Course> courses){
      for (Course course : courses) {
@@ -46,4 +51,5 @@ public class DatabaseService {
   public void updateCourse(Course course) {
     jdbcTemplate.update("insert into Course values (?, ?)", course.getId(), course.getName());
   }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import com.cantvas2.cantvas2.models.Course;
 import com.cantvas2.cantvas2.models.UserFactory;
 import com.cantvas2.cantvas2.models.*;
+
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 @SpringBootApplication
@@ -43,4 +44,5 @@ public class Cantvas2Application {
 	// 		databaseService.createStudent((Student) david);
 	// 	};
 	// }
+
 }
