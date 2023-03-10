@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="flex flex-col bg-slate-100">
+  <fieldset class="flex justify-center">
+    <form th:action="@{/login}" method="POST" id="login-form">
+      <legend>Please Log In</legend>
+      <div id="username-box">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+      </div>
+      <br>
+      <div id="password-box">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+      </div>
+      <br>
+
+      <input type="button" value="submit" id="submit-button">
+      <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button">
+    </form>
+  </fieldset>
+</body>
+
+</html>

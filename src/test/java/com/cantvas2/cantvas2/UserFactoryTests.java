@@ -10,22 +10,21 @@ import org.springframework.test.context.ContextConfiguration;
 import com.cantvas2.cantvas2.models.*;
 import com.cantvas2.cantvas2.config.*;
 
-@ContextConfiguration(classes = { RegistrationConfig.class })
+@ContextConfiguration(classes = { SignupConfig.class })
 @SpringBootTest
 public class UserFactoryTests {
 
     @Autowired
-    RegistrationConfig userConfig;
-    StudentFactory studentFactory = new StudentFactory();
-    TeacherFactory teacherFactory = new TeacherFactory();
+    SignupConfig userConfig;
+    UserFactory userFactory = new ConcreteUserFactory();
 
     @Test
     void testStudentFactory() {
-        assertEquals("[ROLE_STUDENT]", studentFactory.createStudent("Ben").getAuthorities().toString());
+        assertEquals("[ROLE_STUDENT]", userFactory.createStudent("Ben").getAuthorities().toString());
     }
 
     @Test
     void testTeacherFactory() {
-        assertEquals("[ROLE_TEACHER]", teacherFactory.createTeacher("David").getAuthorities().toString());
+        assertEquals("[ROLE_TEACHER]", userFactory.createTeacher("David").getAuthorities().toString());
     }
 }

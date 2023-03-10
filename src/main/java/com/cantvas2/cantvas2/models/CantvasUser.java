@@ -1,6 +1,5 @@
 package com.cantvas2.cantvas2.models;
 
-import java.util.List;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -8,32 +7,37 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Entity
+
+// @EqualsAndHashCode(callSuper = false)
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "users")
 @RequiredArgsConstructor
-public abstract class CantvasUser implements UserDetails {
+public class CantvasUser implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  final String username;
-  final String password;
+  String username;
+  String password;
+  boolean enabled;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  List<Course> courses;
+  public CantvasUser(String username, String password){
+    this.username = username;
+    this.password = password;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
