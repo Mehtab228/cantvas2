@@ -1,7 +1,6 @@
 package com.cantvas2.cantvas2.models;
 
 import java.time.LocalDate;
-import static java.time.Month.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;

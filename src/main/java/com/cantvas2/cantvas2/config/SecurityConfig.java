@@ -3,8 +3,6 @@ package com.cantvas2.cantvas2.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,18 +10,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-
-import com.cantvas2.cantvas2.services.DatabaseService;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
-import org.hibernate.sql.ordering.antlr.OrderingSpecification.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 
@@ -67,11 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
-  // @Bean
-  // UserDetails findUser() throws UsernameNotFoundException{
-  //   return jdbcUserDetailsManager.loadUserByUsername("david");
-  // }
 
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
