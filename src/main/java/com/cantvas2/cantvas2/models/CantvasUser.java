@@ -7,37 +7,29 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
-// @EqualsAndHashCode(callSuper = false)
 @Data
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "users")
+@MappedSuperclass
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 public class CantvasUser implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  String username;
-  String password;
-  boolean enabled;
-
-  public CantvasUser(String username, String password){
-    this.username = username;
-    this.password = password;
-  }
+  final String username;
+  final String password;
+  boolean enabled = true;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,6 +53,6 @@ public class CantvasUser implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return this.enabled;
   }
 }

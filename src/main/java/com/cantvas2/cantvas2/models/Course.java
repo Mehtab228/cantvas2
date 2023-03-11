@@ -15,8 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @RequiredArgsConstructor
 public class Course implements Iterable<LocalDate> {
@@ -35,47 +40,17 @@ public class Course implements Iterable<LocalDate> {
   LocalDate startDate;
   LocalDate endDate;
 
+  @OneToOne
+  Teacher teacher;
+  
+  @OneToMany(cascade = CascadeType.ALL)
+  List<Student> students;
+
   public final class Calendar {
     @Getter
     Map<LocalDate, List<Assignment>> assignments;
   }
 
-  public final static class Builder {
-    private String name;
-    private String desc;
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    public Builder() {
-    }
-
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public Builder desc(String desc) {
-      this.desc = desc;
-      return this;
-    }
-
-    public Builder startDate(LocalDate startDate) {
-      this.startDate = startDate;
-      return this;
-    }
-
-    public Builder endDate(LocalDate endDate) {
-      this.endDate = endDate;
-      return this;
-    }
-
-    public Course build() {
-      return new Course(this.name, this.desc);
-    }
-  }
-
-  @OneToMany(cascade = CascadeType.ALL)
-  List<Student> students;
 
   @Override
   public Iterator<LocalDate> iterator() {
