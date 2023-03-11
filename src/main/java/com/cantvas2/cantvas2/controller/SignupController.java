@@ -42,15 +42,13 @@ public class SignupController {
   @PostMapping
   public String processSignup(@ModelAttribute("signupForm") SignupForm form,
       @RequestParam("user-radio") String userType) {
-    CantvasUser newUser = userFactory.createUser(form.getUsername(), passwordEncoder.encode(form.getPassword()));
     if (userType.equalsIgnoreCase("student")) {
-      Student newStudent = userFactory.createStudent(form.getUsername());
+      Student newStudent = userFactory.createStudent(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getUsername());
       databaseService.createStudent(newStudent);
     } else if (userType.equalsIgnoreCase("teacher")) {
-      Teacher newTeacher = userFactory.createTeacher(form.getUsername());
+      Teacher newTeacher = userFactory.createTeacher(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getUsername());
       databaseService.createTeacher(newTeacher);
     }
-    userRepository.save(newUser);
     return "redirect:/login";
   }
 }

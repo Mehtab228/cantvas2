@@ -10,14 +10,13 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import static java.time.Month.*;
 
-import com.cantvas2.cantvas2.models.Course;
-import com.cantvas2.cantvas2.models.Student;
-import com.cantvas2.cantvas2.models.Assignment;
+import com.cantvas2.cantvas2.models.*;
 
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,10 +79,9 @@ public class CourseController {
 
   @PostMapping(path = "/enroll/{id}", consumes = "application/json")
   @ResponseBody
-  // @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Student enrollStudent(@RequestBody Student student,
-      @PathVariable(value = "id") Long courseId) {
-    Optional<Course> course = databaseService.findById(courseId)
+      @PathVariable(value = "id") Long courseId, @AuthenticationPrincipal Teacher teacher) {
+    Optional<Course> course = databaseService.findCourseByTeacherId(teacher)
         .flatMap(_course -> {
           _course.enrollStudent(student);
           return Optional.of(_course);
@@ -96,6 +94,11 @@ public class CourseController {
   @ResponseBody
   public Course getCourseById(@PathVariable(value = "id") Long courseId) {
 
-    return databaseService.findById(courseId).get();
+    return databaseService.findCourseById(courseId).get();
+  }
+
+  @PostMapping(path = "/new", consumes = "application/json")
+  public void createCourse(@RequestBody Course course) {
+    databaseService.updateCourse(course);
   }
 }
