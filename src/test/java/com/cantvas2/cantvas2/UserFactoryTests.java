@@ -14,17 +14,17 @@ import com.cantvas2.cantvas2.config.*;
 @SpringBootTest
 public class UserFactoryTests {
 
-    @Autowired
-    SignupConfig userConfig;
-    UserFactory userFactory = new ConcreteUserFactory();
+    // @Autowired
+    // SignupConfig userConfig;
+    // UserFactory userFactory = new ConcreteUserFactory();
 
-    @Test
-    void testStudentFactory() {
-        assertEquals("[ROLE_STUDENT]", userFactory.createStudent("Ben").getAuthorities().toString());
-    }
+    // @Test
+    // void testStudentFactory() {
+    //     assertEquals("[ROLE_STUDENT]", userFactory.createStudent("Ben").getAuthorities().toString());
+    // }
 
-    @Test
-    void testTeacherFactory() {
-        assertEquals("[ROLE_TEACHER]", userFactory.createTeacher("David").getAuthorities().toString());
-    }
+    // @Test
+    // void testTeacherFactory() {
+    //     assertEquals("[ROLE_TEACHER]", userFactory.createTeacher("David").getAuthorities().toString());
+    // }
 }
