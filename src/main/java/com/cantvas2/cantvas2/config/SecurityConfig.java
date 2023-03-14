@@ -36,7 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }).formLogin(form -> {
           form.loginPage("/login").successForwardUrl("/courses");
         }).oauth2Login(authForm -> {
-          authForm.loginPage("/login");
+          authForm.loginPage("/login")
+          .authorizationEndpoint(endpoint -> {
+            endpoint.baseUri("https://github.com/login/oauth/authorize")
+            .and().redirectionEndpoint(redirect -> {
+              redirect.baseUri("http://127.0.0.1:8080/auth")
+              .and().tokenEndpoint();
+            });
+          });
         });
   }
 

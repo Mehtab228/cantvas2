@@ -11,7 +11,7 @@
 
 <body class="flex flex-col bg-slate-100">
   <fieldset class="flex justify-center">
-    <form th:action="@{/login}" method="POST" id="login-form">
+    <form th:action="@{https://github.com/login/oauth/authorize}" method="POST" id="login-form">
       <legend>Please Log In</legend>
       <div id="username-box">
         <label for="username">Username</label>
@@ -24,7 +24,7 @@
       </div>
       <br>
 
-      <input type="button" value="submit" id="submit-button">
+      <input type="submit" value="Log In" id="submit-button">
       <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button">
     </form>
   </fieldset>
