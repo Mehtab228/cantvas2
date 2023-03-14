@@ -17,7 +17,7 @@ public class Student extends CantvasUser {
     @Getter
     final String name;
 
-    public Student(String username, String password, String name) {
+    public Student(String username, String password, String name){
       super(username, password);
       this.name = name;
     }

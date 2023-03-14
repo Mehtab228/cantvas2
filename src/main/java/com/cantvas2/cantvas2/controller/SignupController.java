@@ -49,6 +49,7 @@ public class SignupController {
       Teacher newTeacher = userFactory.createTeacher(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getUsername());
       databaseService.createTeacher(newTeacher);
     }
+
     return "redirect:/login";
   }
 }

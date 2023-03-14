@@ -13,5 +13,4 @@ public class ConcreteUserFactory implements UserFactory {
     public Admin createAdmin(String name) {
         return new Admin();
     }
-
 }

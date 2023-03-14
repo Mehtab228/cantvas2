@@ -17,12 +17,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-
 @Data
 @MappedSuperclass
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class CantvasUser implements UserDetails {
+@RequiredArgsConstructor
+public abstract class CantvasUser implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

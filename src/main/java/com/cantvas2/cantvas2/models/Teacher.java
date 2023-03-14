@@ -18,9 +18,9 @@ public class Teacher extends CantvasUser {
     @Getter
     final String name;
 
-    public Teacher(String username, String password, String name) {
-        super(username, password);
-        this.name = name;
+    public Teacher(String username, String password, String name){
+      super(username, password);
+      this.name = name;
     }
 
     @Override
