@@ -33,7 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeHttpRequests(auth -> {
           auth.mvcMatchers("/", "/login").permitAll()
           .mvcMatchers("/courses/**").authenticated();
-        }).formLogin().loginPage("/login").and().oauth2Login();
+        }).formLogin(form -> {
+          form.loginPage("/login").successForwardUrl("/courses");
+        }).oauth2Login(authForm -> {
+          authForm.loginPage("/login");
+        });
   }
 
   @Bean
