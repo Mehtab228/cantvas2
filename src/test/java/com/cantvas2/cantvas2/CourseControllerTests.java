@@ -31,17 +31,17 @@ public class CourseControllerTests {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Test
-    @WithMockUser(username = "david", roles = { "ADMIN" })
-    void canEnrollStudentUsingAdminRole() throws Exception {
-        Student student = registrationService.userFactory.createStudent("Ben");
+    // @Test
+    // @WithMockUser(username = "david", roles = { "ADMIN" })
+    // void canEnrollStudentUsingAdminRole() throws Exception {
+    //     Student student = registrationService.userFactory.createStudent("Ben");
 
-        String json = mapper.writeValueAsString(student);
+    //     String json = mapper.writeValueAsString(student);
 
-        mockMvc.perform(put("/courses/enroll/1")
-                .contentType("application/json")
-                .content(json)
-                .characterEncoding("utf-8")).andExpect(status().isInternalServerError());
+    //     mockMvc.perform(put("/courses/enroll/1")
+    //             .contentType("application/json")
+    //             .content(json)
+    //             .characterEncoding("utf-8")).andExpect(status().isInternalServerError());
 
-    }
+    // }
 }

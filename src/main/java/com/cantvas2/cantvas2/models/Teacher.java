@@ -24,7 +24,7 @@ public class Teacher extends CantvasUser {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<SimpleGrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_TEACHER"), new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 }

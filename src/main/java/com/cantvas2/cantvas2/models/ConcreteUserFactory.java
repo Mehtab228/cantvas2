@@ -13,8 +13,4 @@ public class ConcreteUserFactory implements UserFactory {
     public Admin createAdmin(String name) {
         return new Admin();
     }
-
-    // public CantvasUser createUser(String username, String password){
-    //     return new CantvasUser(username, password);
-    // }
 }
