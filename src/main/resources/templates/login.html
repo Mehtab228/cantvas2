@@ -23,9 +23,11 @@
         <input type="password" name="password" id="password">
       </div>
       <br>
-
-      <input type="submit" value="Log In" id="submit-button">
-      <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button">
+      <div id="github-login">
+        <a th:href="@{/oauth2/authorization/github}" value="Login with Github" id="github-login-button">Login with Github</a>
+      </div>
+      <!-- <input type="submit" value="Log In" id="submit-button"> -->
+      <!-- <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button"> -->
     </form>
   </fieldset>
 </body>
