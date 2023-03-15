@@ -28,22 +28,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
-        .csrf().disable()
+        // .csrf().disable()
         .cors().disable()
         .authorizeHttpRequests(auth -> {
           auth.mvcMatchers("/", "/login").permitAll()
-          .mvcMatchers("/courses/**").authenticated();
+              .mvcMatchers("/courses/**").authenticated();
         }).formLogin(form -> {
           form.loginPage("/login").successForwardUrl("/courses");
-        }).oauth2Login(authForm -> {
-          authForm.loginPage("/login")
-          .authorizationEndpoint(endpoint -> {
-            endpoint.baseUri("https://github.com/login/oauth/authorize")
-            .and().redirectionEndpoint(redirect -> {
-              redirect.baseUri("http://127.0.0.1:8080/auth")
-              .and().tokenEndpoint();
-            });
-          });
+        }).oauth2Login(oauth -> {
+          oauth.loginPage("/login").defaultSuccessUrl("/courses");
         });
   }
 
