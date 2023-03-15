@@ -9,9 +9,9 @@ import com.cantvas2.cantvas2.repository.*;
 @Service
 public class DatabaseService {
 
-  final StudentRepository studentRepository;
-  final TeacherRepository teacherRepository;
-  final CourseRepository courseRepository;
+  public final StudentRepository studentRepository;
+  public final TeacherRepository teacherRepository;
+  public final CourseRepository courseRepository;
 
   public DatabaseService(StudentRepository studentRepository, TeacherRepository teacherRepository,
       CourseRepository courseRepository) {

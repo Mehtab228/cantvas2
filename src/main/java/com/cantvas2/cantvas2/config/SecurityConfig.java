@@ -6,13 +6,24 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.cantvas2.cantvas2.services.DatabaseService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
@@ -30,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     httpSecurity
         // .csrf().disable()
         .cors().disable()
+        .addFilterBefore(new UsernamePasswordAuthenticationFilter(new ProviderManager(List.of(authenticationProvider()))), UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> {
           auth.mvcMatchers("/", "/login").permitAll()
               .mvcMatchers("/courses/**").authenticated();
@@ -62,8 +74,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  @Override
-  public void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(jdbcUserDetailsService()).passwordEncoder(passwordEncoder());
+  // @Override
+  // public void configure(AuthenticationManagerBuilder auth) throws Exception {
+  //   auth.userDetailsService(jdbcUserDetailsService()).passwordEncoder(passwordEncoder());
+  // }
+
+  @Bean
+  CustomUserDetailsService userDetailsService(DatabaseService databaseService){
+    return new CustomUserDetailsService();
+  }   
+
+  @Bean
+  AuthenticationProvider authenticationProvider(){
+    DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+    daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+    daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+    return daoAuthenticationProvider;
   }
+
 }
