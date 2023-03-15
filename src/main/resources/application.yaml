@@ -13,6 +13,8 @@ spring:
         generate-unique-name: false
         name: cantvas
         url: jdbc:h2:mem:cantvas
+    jpa:
+        generate-ddl: true
 server:
     error:
         whitelabel:
