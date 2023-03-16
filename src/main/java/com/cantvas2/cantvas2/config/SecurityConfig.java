@@ -4,24 +4,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.security.config.Customizer.withDefaults;
-
-import com.cantvas2.cantvas2.config.*;
 
 import java.util.List;
 
@@ -31,6 +28,7 @@ import com.cantvas2.cantvas2.models.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Profile(value = { "test", "development", "production" })
 public class SecurityConfig {
 
@@ -66,19 +64,19 @@ public class SecurityConfig {
   JdbcUserDetailsManager jdbcUserDetailsService() {
     JdbcUserDetailsManager jdbc = new StringlyTypedJdbcUserDetailsManager(
         new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
-    UserDetails user = CantvasUser.builder()
+    UserDetails user = new CantvasUser.Builder()
         .username("ben")
         .password("foobar")
         .userType("STUDENT")
         // .passwordEncoder(password -> passwordEncoder().encode(password))
-        // .authorities("USER")
+        .authorities("USER")
         .build();
-    UserDetails admin = CantvasUser.builder()
+    UserDetails admin = new CantvasUser.Builder()
         .username("david")
         .password("bazquux")
         .userType("TEACHER")
         // .passwordEncoder(password -> passwordEncoder().encode(password))
-        // .authorities("TEACHER, ADMIN")
+        .authorities("TEACHER, ADMIN")
         .build();
     jdbc.createUser(user);
     jdbc.createUser(admin);
