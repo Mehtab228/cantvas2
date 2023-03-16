@@ -41,10 +41,10 @@ public class Course implements Iterable<LocalDate> {
   LocalDate endDate;
 
   @OneToOne
-  Teacher teacher;
+  CantvasUser teacher;
   
   @OneToMany(cascade = CascadeType.ALL)
-  List<Student> students;
+  List<CantvasUser> students;
 
   public final class Calendar {
     @Getter
@@ -70,7 +70,7 @@ public class Course implements Iterable<LocalDate> {
     return calendar;
   }
 
-  public void enrollStudent(Student student) {
-    students.add(student);
-  }
+  // public void enrollStudent(CantvasUser student) {
+  //   students.add(student);
+  // }
 }
