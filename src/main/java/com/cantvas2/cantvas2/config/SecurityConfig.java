@@ -9,19 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import com.cantvas2.cantvas2.config.*;
 
 import java.util.List;
 
@@ -30,16 +30,16 @@ import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 @Configuration
 @EnableWebSecurity
 @Profile(value = { "test", "development", "production" })
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-  @Override
-  public void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity
-        .csrf().disable()
-        .cors().disable()
-        .addFilterBefore(new UsernamePasswordAuthenticationFilter(
+  @Bean
+  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+        .csrf(withDefaults())
+        .cors(withDefaults())
+        .addFilterBefore(new UserTypeAuthenticationFilter(
             new ProviderManager(List.of(authenticationProvider()))),
-            UsernamePasswordAuthenticationFilter.class)
+            UserTypeAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> {
           auth.mvcMatchers("/", "/login").permitAll()
               .mvcMatchers("/courses/**").authenticated();
@@ -47,7 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           form.loginPage("/login").successForwardUrl("/courses");
         }).oauth2Login(oauth -> {
           oauth.loginPage("/login").defaultSuccessUrl("/courses");
-        });
+        }).logout(logout -> logout
+            .clearAuthentication(true)
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login"))
+        .build();
   }
 
   @Bean
@@ -57,17 +61,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   @Profile(value = { "test", "development" })
-  JdbcUserDetailsManager jdbcUserDetailsService(PasswordEncoder passwordEncoder) {
+  JdbcUserDetailsManager jdbcUserDetailsService() {
     JdbcUserDetailsManager jdbc = new JdbcUserDetailsManager(
         new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
     UserDetails user = User.builder()
-        .username("ben")
-        .password(passwordEncoder.encode("foobar"))
+        .username("ben:Student")
+        .password("foobar")
+        .passwordEncoder(password -> passwordEncoder().encode(password))
         .authorities("USER")
         .build();
     UserDetails admin = User.builder()
         .username("david")
-        .password(passwordEncoder.encode("bazquux"))
+        .password("bazquux")
+        .passwordEncoder(password -> passwordEncoder().encode(password))
         .authorities("TEACHER, ADMIN")
         .build();
     jdbc.createUser(user);
@@ -86,15 +92,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  // @Override
-  // public void configure(AuthenticationManagerBuilder auth) throws Exception {
-  // auth.userDetailsService(jdbcUserDetailsService()).passwordEncoder(passwordEncoder());
-  // }
-
   @Bean
   AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-    daoAuthenticationProvider.setUserDetailsService(jdbcUserDetailsService(passwordEncoder()));
+    daoAuthenticationProvider.setUserDetailsService(jdbcUserDetailsService());
     daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
     return daoAuthenticationProvider;
   }
