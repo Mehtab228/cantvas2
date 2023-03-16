@@ -29,7 +29,7 @@ public class UserTypeAuthenticationFilter extends UsernamePasswordAuthentication
         String password = obtainPassword(request);
         String userType = obtainUserType(request);
 
-        return new UsernamePasswordAuthenticationToken(username + ":" + userType, password);
+        return new CustomAuthToken(username, password, userType);
     }
 
     private String obtainUserType(HttpServletRequest request) {

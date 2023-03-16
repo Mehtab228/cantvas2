@@ -27,6 +27,8 @@ import java.util.List;
 
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 
+import com.cantvas2.cantvas2.models.*;
+
 @Configuration
 @EnableWebSecurity
 @Profile(value = { "test", "development", "production" })
@@ -62,19 +64,21 @@ public class SecurityConfig {
   @Bean
   @Profile(value = { "test", "development" })
   JdbcUserDetailsManager jdbcUserDetailsService() {
-    JdbcUserDetailsManager jdbc = new JdbcUserDetailsManager(
+    JdbcUserDetailsManager jdbc = new StringlyTypedJdbcUserDetailsManager(
         new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
-    UserDetails user = User.builder()
-        .username("ben:Student")
+    UserDetails user = CantvasUser.builder()
+        .username("ben")
         .password("foobar")
-        .passwordEncoder(password -> passwordEncoder().encode(password))
-        .authorities("USER")
+        .userType("STUDENT")
+        // .passwordEncoder(password -> passwordEncoder().encode(password))
+        // .authorities("USER")
         .build();
-    UserDetails admin = User.builder()
+    UserDetails admin = CantvasUser.builder()
         .username("david")
         .password("bazquux")
-        .passwordEncoder(password -> passwordEncoder().encode(password))
-        .authorities("TEACHER, ADMIN")
+        .userType("TEACHER")
+        // .passwordEncoder(password -> passwordEncoder().encode(password))
+        // .authorities("TEACHER, ADMIN")
         .build();
     jdbc.createUser(user);
     jdbc.createUser(admin);

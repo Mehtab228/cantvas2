@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.cantvas2.cantvas2.models.CantvasUser;
 
-public interface UserRepository extends CrudRepository<CantvasUser, Long>{
+// public interface UserRepository extends CrudRepository<CantvasUser, Long>{
     
-}
+// }
