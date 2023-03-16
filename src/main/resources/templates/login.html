@@ -26,8 +26,15 @@
       <!-- <div id="github-login">
         <a th:href="@{/oauth2/authorization/github}" value="Login with Github" id="github-login-button">Login with Github</a>
       </div> -->
+      <div id="user-type">
+        <span>I am a: </span>
+        <label for="student-radio">Student</label>
+        <input type="radio" name="user-radio" id="student-radio" value="Student">
+        <label for="teacher-radio">Teacher</label>
+        <input type="radio" name="user-radio" id="teacher-radio" value="Teacher">
+      </div>
       <input type="submit" value="Log In" id="submit-button"> 
-      <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button">
+      <!-- <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button"> -->
     </form>
   </fieldset>
 </body>
