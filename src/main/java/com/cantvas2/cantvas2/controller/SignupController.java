@@ -1,8 +1,6 @@
 package com.cantvas2.cantvas2.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +13,15 @@ import com.cantvas2.cantvas2.models.*;
 // import com.cantvas2.cantvas2.repository.UserRepository;
 import com.cantvas2.cantvas2.services.*;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @RequestMapping("/signup")
 public class SignupController {
   private DatabaseService databaseService;
   private PasswordEncoder passwordEncoder;
   private ConcreteUserFactory userFactory;
-  // @Autowired UserRepository userRepository;
 
-  public SignupController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder,
+  public SignupController(PasswordEncoder passwordEncoder,
       ConcreteUserFactory userFactory, DatabaseService databaseService) {
     this.passwordEncoder = passwordEncoder;
     this.userFactory = userFactory;
