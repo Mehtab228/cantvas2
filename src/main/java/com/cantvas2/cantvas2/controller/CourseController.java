@@ -83,7 +83,7 @@ public class CourseController {
       @PathVariable(value = "id") Long courseId, @AuthenticationPrincipal Teacher teacher) {
     Optional<Course> course = databaseService.findCourseByTeacherId(teacher)
         .flatMap(_course -> {
-          _course.enrollStudent(student);
+          // _course.enrollStudent(student);
           return Optional.of(_course);
         });
     databaseService.updateCourse(course.get());

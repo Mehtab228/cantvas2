@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cantvas2.cantvas2.models.*;
-import com.cantvas2.cantvas2.repository.UserRepository;
+// import com.cantvas2.cantvas2.repository.UserRepository;
 import com.cantvas2.cantvas2.services.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class SignupController {
   private DatabaseService databaseService;
   private PasswordEncoder passwordEncoder;
   private ConcreteUserFactory userFactory;
-  @Autowired UserRepository userRepository;
+  // @Autowired UserRepository userRepository;
 
   public SignupController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder,
       ConcreteUserFactory userFactory, DatabaseService databaseService) {
