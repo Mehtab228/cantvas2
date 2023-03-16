@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,13 +34,13 @@ public class CourseBuilderTests {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
+    @WithMockUser(username = "david", roles = { "FAKE_ROLE" })
     void testCourseBuilder() throws Exception {
         Course builder = Course.builder()
                 .name("Java 401")
                 .desc("Software development with Spring")
                 // .startDate(LocalDate.of(2022, OCTOBER, 23))
                 // .endDate(LocalDate.of(2022, DECEMBER, 30))
-                .teacher(new Teacher("alex", "foobar", "alex"))
                 .build();
         mockMvc.perform(post("/courses/new")
                 .contentType("application/json")

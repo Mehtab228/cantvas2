@@ -44,4 +44,6 @@ public class CourseControllerTests {
     //             .characterEncoding("utf-8")).andExpect(status().isInternalServerError());
 
     // }
+
+    
 }
