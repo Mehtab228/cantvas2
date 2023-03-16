@@ -2,6 +2,7 @@ package com.cantvas2.cantvas2.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
@@ -22,5 +23,12 @@ public class StringlyTypedJdbcUserDetailsManager extends JdbcUserDetailsManager 
             ps.setBoolean(3, user.isEnabled());
             ps.setString(4, user.getUserType());
         });
+        createAuthorities(user);
+    }
+
+    private void createAuthorities(UserDetails user) {
+        for (GrantedAuthority authority : user.getAuthorities()) {
+            getJdbcTemplate().update("insert into authorities (username, authority) values (?,?)", user.getUsername(), authority.getAuthority());
+        }
     }
 }
