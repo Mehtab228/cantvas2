@@ -82,15 +82,11 @@ public class SecurityConfig {
         .username("ben")
         .password("foobar")
         .userType("STUDENT")
-        // .passwordEncoder(password -> passwordEncoder().encode(password))
-        .authorities("USER")
         .build();
     UserDetails admin = new CantvasUser.Builder()
         .username("david")
         .password("bazquux")
         .userType("TEACHER")
-        // .passwordEncoder(password -> passwordEncoder().encode(password))
-        .authorities("TEACHER, ADMIN")
         .build();
     jdbc.createUser(user);
     jdbc.createUser(admin);
