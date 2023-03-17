@@ -49,7 +49,9 @@ public class SecurityConfig {
           oauth.loginPage("/login").defaultSuccessUrl("/courses");
         }).logout(logout -> logout
             .clearAuthentication(true)
+            .deleteCookies("JSESSIONID")
             .logoutUrl("/logout")
+            .invalidateHttpSession(true)
             .logoutSuccessUrl("/login"))
         .build();
   }
@@ -61,8 +63,8 @@ public class SecurityConfig {
 
   @Bean
   @Profile(value = { "test", "development" })
-  JdbcUserDetailsManager jdbcUserDetailsService() {
-    JdbcUserDetailsManager jdbc = new StringlyTypedJdbcUserDetailsManager(
+  StringlyTypedJdbcUserDetailsManager jdbcUserDetailsService() {
+    StringlyTypedJdbcUserDetailsManager jdbc = new StringlyTypedJdbcUserDetailsManager(
         new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
     UserDetails user = new CantvasUser.Builder()
         .username("ben")

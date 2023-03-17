@@ -2580,7 +2580,11 @@ video {
   outline-offset: 2px;
 }
 
-#submit-button, #login-button, #signup-button, #github-login-button {
+/* #submit-button, #login-button, #signup-button, #github-login-button, #to-login-button, #to-signup-button {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none
+} */
+
+.simple-button {
   border-radius: 0.25rem;
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
@@ -2593,12 +2597,12 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-#submit-button:hover, #login-button:hover, #signup-button:hover, #github-login-button:hover {
+.simple-button:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
-#submit-button:focus, #login-button:focus, #signup-button:focus, #github-login-button:focus {
+.simple-button:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }

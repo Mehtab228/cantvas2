@@ -8,6 +8,9 @@
 </head>
 <body>
   <h1>Courses Page</h1>
+  <form th:action="@{/logout}" method="POST" id="login-form">
+    <input type="submit" value="Log Out" id="submit-button" class="simple-button">
+  </form>
   <section>
     <div th:each = "course: ${courses}">
       <h2 th:text = "${course.name}"></h2>
