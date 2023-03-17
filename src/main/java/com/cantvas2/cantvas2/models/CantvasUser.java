@@ -2,34 +2,26 @@ package com.cantvas2.cantvas2.models;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Data // d
-@Entity // e
-@Table(name = "users") // t
+@Data
+@Entity
+@Table(name = "users")
 @RequiredArgsConstructor
 public class CantvasUser implements UserDetails {
 
@@ -39,16 +31,16 @@ public class CantvasUser implements UserDetails {
   final String username;
   final String password;
   final String userType;
-  String authoritiesStr;
   boolean enabled = true;
 
   @Override
   public Collection<GrantedAuthority> getAuthorities() {
+    if (this.userType == "STUDENT") {
+      return Arrays.asList(new SimpleGrantedAuthority("ROLE_STUDENT"));
+    } else if (this.userType == "TEACHER") {
+      return Arrays.asList(new SimpleGrantedAuthority("ROLE_TEACHER"));
+    }
     return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-  }
-
-  public void setAuthorities(String authority) {
-    this.authoritiesStr += "," + authority;
   }
 
   @Override
@@ -75,7 +67,6 @@ public class CantvasUser implements UserDetails {
     private String username;
     private String password;
     private String userType;
-    private Collection<GrantedAuthority> authorities;
     private PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public Builder() {    }
@@ -92,11 +83,6 @@ public class CantvasUser implements UserDetails {
 
     public Builder userType(String userType) {
       this.userType = userType;
-      return this;
-    }
-
-    public Builder authorities(String authorities) {
-      this.authorities = Arrays.asList(new SimpleGrantedAuthority(authorities));
       return this;
     }
 
