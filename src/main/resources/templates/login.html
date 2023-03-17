@@ -24,7 +24,7 @@
       </div>
       <br>
       <!-- <div id="github-login">
-        <a th:href="@{/oauth2/authorization/github}" value="Login with Github" id="github-login-button">Login with Github</a>
+        <a th:href="@{/oauth2/authorization/github}" value="Login with Github" id="github-login-button" class="simple-button">Login with Github</a>
       </div> -->
       <div id="user-type">
         <span>I am a: </span>
@@ -33,8 +33,10 @@
         <label for="teacher-radio">Teacher</label>
         <input type="radio" name="user-radio" id="teacher-radio" value="Teacher">
       </div>
-      <input type="submit" value="Log In" id="submit-button"> 
-      <!-- <input type="button" value="Sign Up?" th:action="@{/signup}" id="signup-button"> -->
+      <input type="submit" value="Log In" id="submit-button" class="simple-button"> 
+      <button type="button" value="Submit" id="to-signup-button" class="simple-button">
+        <a href="/signup">Sign Up Instead?</a>
+      </button>
     </form>
   </fieldset>
 </body>
