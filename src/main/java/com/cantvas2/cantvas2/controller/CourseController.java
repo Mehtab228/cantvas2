@@ -20,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping("/courses")
+@CrossOrigin("http://localhost:3000")
 public class CourseController {
 
 
@@ -97,6 +99,15 @@ public class CourseController {
   public Course getCourseById(@PathVariable(value = "id") Long courseId) {
 
     return databaseService.findCourseById(courseId).get();
+  }
+
+  @GetMapping("/all")
+  @ResponseBody
+  public List<Course> getAllCourses(){
+    List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
+    new Course("JavaScript 401", "Advanced JavaScript course going deep into React and Node.js"),
+    new Course("JavaScript 201", "Introductory JavaScript"));
+    return coursesList;
   }
 
   @PostMapping(path = "/new", consumes = "application/json")

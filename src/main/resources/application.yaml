@@ -8,7 +8,7 @@ spring:
             clientSecret: 5f3db0afe58feb696fb91ac16c06b27677a19b4f
             scope: oidc
   profiles:
-    active: development
+    active: react
   datasource:
     generate-unique-name: false
     name: cantvas

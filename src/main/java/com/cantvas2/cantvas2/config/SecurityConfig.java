@@ -12,7 +12,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,8 +28,20 @@ import com.cantvas2.cantvas2.models.*;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile(value = { "test", "development", "production" })
+// @Profile(value = { "test", "development", "production" })
 public class SecurityConfig {
+
+  @Bean
+  @Profile("react")
+  SecurityFilterChain frontEndSecurityChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+    .csrf(withDefaults())
+    .cors(withDefaults())
+    .authorizeHttpRequests(auth -> {
+      auth.mvcMatchers("/", "/login").permitAll()
+          .mvcMatchers("/courses/**").permitAll();}).build();
+
+  }
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -57,12 +68,13 @@ public class SecurityConfig {
   }
 
   @Bean
+  @Profile("react")
   WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring().requestMatchers(toH2Console());
   }
 
   @Bean
-  @Profile(value = { "test", "development" })
+  @Profile(value = { "test", "development", "react" })
   StringlyTypedJdbcUserDetailsManager jdbcUserDetailsService() {
     StringlyTypedJdbcUserDetailsManager jdbc = new StringlyTypedJdbcUserDetailsManager(
         new DriverManagerDataSource("jdbc:h2:mem:cantvas", "sa", ""));
@@ -92,6 +104,7 @@ public class SecurityConfig {
   }
 
   @Bean
+  @Profile("react")
   BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
