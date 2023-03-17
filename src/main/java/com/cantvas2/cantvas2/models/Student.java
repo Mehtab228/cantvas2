@@ -2,7 +2,6 @@ package com.cantvas2.cantvas2.models;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.*;
 
