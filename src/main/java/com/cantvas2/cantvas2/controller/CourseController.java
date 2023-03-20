@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 import static java.time.Month.*;
 
 import com.cantvas2.cantvas2.models.*;
-
+import com.cantvas2.cantvas2.repository.CourseRepository;
 import com.cantvas2.cantvas2.services.DatabaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,7 @@ public class CourseController {
 
   @ModelAttribute
   public void AddCoursesToModel(Model model) {
-    List<Course> coursesList = List.of(new Course("Java 401", "Advanced Java course with Spring and Android"),
-        new Course("JavaScript 401", "Advanced JavaScript course going deep into React and Node.js"),
-        new Course("JavaScript 201", "Introductory JavaScript"));
+    Iterable<Course> coursesList = databaseService.courseRepository.findAll();
 
     model.addAttribute("courses", coursesList);
   }
