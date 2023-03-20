@@ -110,11 +110,25 @@ public class CourseController {
     return coursesList;
   }
 
+  @GetMapping(path = "/create")
+  public String createCourseForm(){
+    return "new-course";
+  }
+
+  @PostMapping(path = "/create")
+  public void createCourse(@ModelAttribute("courseForm") CourseForm form){
+    Course newCourse = Course.builder()
+    .name(form.getCourseName())
+    .desc(form.getCourseDesc())
+    .build();
+    databaseService.updateCourse(newCourse);
+  }
+
   @PostMapping(path = "/new", consumes = "application/json")
   @PreAuthorize("hasRole('USER')")
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)
-  public void createCourse(@RequestBody Course course) {
+  public void newCourse(@RequestBody Course course) {
     databaseService.updateCourse(course);
   }
 }

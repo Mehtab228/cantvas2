@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <form th:action="@{/courses/create}" method="POST" th:object="${courseForm}" id="course-form">
+      <label for="course-name">Course Name</label>
+      <input type="text" id="courseName">
+
+      <label for="course-desc">Description</label>
+      <input type="text" id="courseDesc">
+
+      <button type="submit", value="Make new course">Make new course</button>
+
+    </form>
+  </fieldset>
+  
+</body>
+</html>
