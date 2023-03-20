@@ -116,12 +116,14 @@ public class CourseController {
   }
 
   @PostMapping(path = "/create")
-  public void createCourse(@ModelAttribute("courseForm") CourseForm form){
+  public String createCourse(@ModelAttribute("courseForm") CourseForm form){
     Course newCourse = Course.builder()
     .name(form.getCourseName())
     .desc(form.getCourseDesc())
     .build();
     databaseService.updateCourse(newCourse);
+
+    return "redirect:/courses";
   }
 
   @PostMapping(path = "/new", consumes = "application/json")
